@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form>
+    <label for="valeur1">Valeur 1:</label>
+    <input type="number" id="valeur1" required><br>
+
+    <label for="valeur2">Valeur 2:</label>
+    <input type="number" id="valeur2" required><br>
+
+    <label for="valeur3">Valeur 3:</label>
+    <input type="number" id="valeur3" required><br>
+
+    <button type="button" onclick="teste()">teste</button>
+    <button type="button" onclick="sommedevaleurimpaire()">somme de valeurs impaire</button>
+    <button type="button" onclick="produitdevaleurpairsuperieur()">produit de valeur pair superieur a 7</button>
+
+  </form>
+
+  <div id="resultat"></div>
+  
+  <script>
+
+  </script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+  <title>Table de multiplication</title>
+</head>
+
+   <form action="">
+    <label for="number"> nombre :</label>
+    <input type="number" id="number" min="1" max="12">
+    <button type="submit" onclick="affichernumber()">afficher le number</button>
+ 
+  </form>
+  <script>
+    function affichernumber(){
+      numberinput = document.getElementById('number');
+      var number = parseInt(numberinput.value);
+      if(!isNaN(number)){
+        var table="";
+        for(var i= 1; i <=12; i++ ){
+          var multiplication = number * i;
+          table += number + " X " + i + "=" + multiplication ;"</br>" 
+        }
+        document.getElementById('result').innerHTML = table;
+      }
+    }
+  </script>
+  
+  <div id="result"></div>
+</body>
+</html>
+
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+  <title>Tableau de saisie de valeurs</title>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Valeur</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+  </table>
+
+  <h2>Tableau des nombres pairs</h2>
+  <table id="table-grand">
+    <thead>
+      <tr>
+        <th>Resultat</th>
+      </tr>
+    </thead>
+    <tbody id="table-grand">
+    </tbody>
+  </table>
+
+  <h2>Tableau des nombres impairs</h2>
+  <table id="table-petit">
+    <thead>
+      <tr>
+        <th>Resultat</th>
+      </tr>
+    </thead>
+    <tbody id="table-petit">
+    </tbody>
+  </table>
+
+  <h2>Tableau des nombres restants</h2>
+  <table id="table-reste">
+    <thead>
+      <tr>
+        <th>Reste</th>
+      </tr>
+    </thead>
+    <tbody id="table-reste">
+    </tbody>
+  </table>
+
+  <script>
+    var nombre = [];
+    var grand = [];
+    var petit = [];
+    var reste = [];
+
+    function okihassan() {
+      var table = document.getElementById("table-body");
+      var rowCount = table.rows.length;
+
+      if (rowCount < 10) {
+        var row = table.insertRow(rowCount);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        cell1.innerHTML = rowCount + 1;
+        cell2.innerHTML = '<input type="number" min="-Infinity" max="Infinity" step="any" onchange="validateInput(this)" required><br>';
+      }
+    }
+
+    function validateInput(input) {
+      var value = parseFloat(input.value);
+
+      if (value === 0) {
+        alert("Veuillez saisir un nombre différent de zéro.");
+        input.value = '';
+        return;
+      }
+
+      nombre.push(value); 
+
+      if (value > 10 && value % 2 === 0) {
+        grand.push(value);
+        updateTable("table-grand", grand);
+      }
+
+      if (value < 25 && value % 2 !== 0) {
+        petit.push(value);
+        updateTable("table-petit", petit);
+      }
+
+      if (value > 25 || value < 10) {
+        reste.push(value);
+        updateTable("table-reste", reste);
+      }
+    }
+
+    function updateTable(tableId, data) {
+      var tableBody = document.getElementById(tableId);
+      tableBody.innerHTML = '';
+
+      for (var i = 0; i < data.length; i++) {
+        var row = tableBody.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        cell1.innerHTML = i + 1;
+        cell2.innerHTML = data[i];
+      }
+    }
+  </script>
+
+  <button onclick="okihassan()">Ajouter une valeur</button>
+</body>
+</html>

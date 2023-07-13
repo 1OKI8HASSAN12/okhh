@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calcul de la somme</title>
+  <script>
+    function sommer() {
+      var valeur1 = parseFloat(document.getElementById('valeur1').value);
+      var valeur2 = parseFloat(document.getElementById('valeur2').value);
+      var valeur3 = parseFloat(document.getElementById('valeur3').value);
+
+      var somme = valeur1 + valeur2 + valeur3;
+      document.getElementById('resultat').innerHTML = 'La somme est : ' + somme;
+    }
+
+    function compare() {
+      var valeur1 = parseFloat(document.getElementById('valeur1').value);
+      var valeur2 = parseFloat(document.getElementById('valeur2').value);
+      var valeur3 = parseFloat(document.getElementById('valeur3').value);
+
+      var plusGrand = Math.max(valeur1, valeur2, valeur3);
+      document.getElementById('plusGrand').innerHTML = 'Le plus grand nombre est : ' + plusGrand;
+    }
+  </script>
+</head>
+<body>
+  <h1>Calcul de la somme</h1>
+  <form>
+    <label for="valeur1">Valeur 1:</label>
+    <input type="number" id="valeur1" required><br>
+
+    <label for="valeur2">Valeur 2:</label>
+    <input type="number" id="valeur2" required><br>
+
+    <label for="valeur3">Valeur 3:</label>
+    <input type="number" id="valeur3" required><br>
+
+    <button type="button" onclick="sommer()">Calculer la somme</button>
+    <button type="button" onclick="compare()">Comparer les valeurs</button>
+  </form>
+
+  <div id="resultat"></div>
+  <div id="plusGrand"></div>
+</body>
+</html>
+<form action="">
+  <label for="valeur1"> valeur1 :</label>
+  <input type="number" name="valeur1" id="valeur1" required>
+  <label for="valeur2">valeur2 :</label>
+  <input type="number" name="valeur2" id="valeur2" required>
+  <label for="valeur1">valeur3 :</label>
+  <input type="number" name="valeur3" id="valeur3" required>
+  <button type="submit" onclick="sommer()">calcul</button>
+  <button type="submit" onclick="compare()">compare</button>
+</form>

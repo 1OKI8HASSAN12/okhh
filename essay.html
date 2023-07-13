@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function genere(){
+            var nombre = parseInt(document.getElementById('nombre').value);
+            var table = document.getElementById('okihassan');
+            table.innerHTML="";
+            for(var i = 1; i <=12; i++ ){
+                var resultat=nombre * i;
+                table.innerHTML += "<tr><td>"+ nombre + "x" + i + "<tr><td>"+resultat + "<tr><td> ";
+            }
+        }
+    </script>
+    <label for="nombre">nombre</label>
+    <input type="number" id="nombre">
+    <button ondblclick="genere()">ok</button>
+    <table id="okihassan"></table>
+</body>
+</html>

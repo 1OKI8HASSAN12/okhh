@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        padding: 5px;
+    }
+
+    button {
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <form>
+        <label for="letters">Entrez des lettres :</label>
+        <input type="text" id="letters" name="letters">
+    </form>
+    
+    <button onclick="check()">Vérifier</button>
+    <button onclick="calculateConsonantProduct()">Produit des consonnes</button>
+    <button onclick="calculateVowelSum()">Somme des carrés des voyelles</button>
+    
+    <p id="result"></p>
+    
+    <script type="text/javascript">
+        function check() {
+            var letters = document.getElementById("letters").value;
+            var vowels = "aeiouy";
+            var consonants = "bcdfghjklmnpqrstvwxz";
+            var vowelLetters = "";
+            var consonantCount = 0;
+    
+            for (var i = 0; i < letters.length; i++) {
+                if (vowels.indexOf(letters[i]) !== -1) {
+                    vowelLetters += letters[i] + " ";
+                } else if (consonants.indexOf(letters[i]) !== -1) {
+                    consonantCount++;
+                }
+            }
+    
+            document.getElementById("result").innerHTML = "Les lettres qui sont des voyelles sont : " + vowelLetters + "<br> Le nombre de consonnes est : " + consonantCount;
+        }
+    
+        function calculateConsonantProduct() {
+            var letters = document.getElementById("letters").value;
+            var consonants = "bcdfghjklmnpqrstvwxz";
+            var consonantCount = 0;
+            var consonantProduct = "";
+    
+            for (var i = 0; i < letters.length; i++) {
+                if (consonants.indexOf(letters[i]) !== -1) {
+                    consonantCount++;
+                }
+            }
+    
+            if (consonantCount === 0) {
+                document.getElementById("result").innerHTML = "Aucune consonne n'a été trouvée.";
+                return;
+            }
+    
+            for (var j = consonantCount; j >= 1; j--) {
+                consonantProduct += j;
+                if (j !== 1) {
+                    consonantProduct += "*";
+                }
+            }
+    
+            document.getElementById("result").innerHTML = "Le produit des consonnes est : " + consonantProduct;
+        }
+    
+        function calculateVowelSum() {
+            var letters = document.getElementById("letters").value;
+            var vowels = "aeiouy";
+            var vowelValues = [1, 5, 9, 15, 21, 25]; // Correspondance des voyelles avec les valeurs numériques
+            var vowelSum = 0;
+            var vowelSumString = "";
+    
+            for (var i = vowelValues.length; i >= 1; i--) {
+                vowelSum += i;
+                vowelSumString += i;
+                if (i !== 1) {
+                    vowelSumString += "+";
+                }
+            }
+    
+            document.getElementById("result").innerHTML = "La somme des carrés des voyelles est : " + vowelSumString + " = " + vowelSum;
+        }
+    </script>
+    
+    
+</body>
+</html>
+
+

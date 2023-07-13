@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jeu de casse-briques</title>
+    <style>
+      /* Style pour le conteneur du jeu */
+#jeu {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  border: 1px solid #000;
+  overflow: hidden;
+}
+
+/* Style pour les briques */
+.brique {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  background-color: #e74c3c;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #888;
+}
+
+/* Style pour la balle */
+#balle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #3498db;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px #888;
+}
+
+/* Style pour la barre */
+#barre {
+  position: absolute;
+  bottom: 10px;
+  width: 100px;
+  height: 10px;
+  background-color: #3498db;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #888;
+}
+
+/* Style pour les images */
+img {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  margin-top: 20px;
+}
+
+/* Style pour la ligne de séparation */
+hr {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 10px 0;
+}
+#jeu {
+      background-image: url(th.jpg);
+    }
+  /* Style pour la navbar */
+  .choix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #bbb;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  .hidden {
+  display: none;
+}
+
+
+  /* Style pour les boutons de la navbar */
+  .choix button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: inherit;
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  /* Style pour les boutons de la navbar au survol */
+  .choix button:hover {
+    background-color: #ddd;
+  }
+  h1{
+    text-align: center;
+    color: #1a16165b;
+    
+  }
+    </style>
+   
+  </head>
+  <body>
+    <div id="jeu">
+ 
+      <div class="brique" style="top: 50px; left: 50px;"></div>
+      <div class="brique" style="top: 50px; left: 200px;"></div>
+      <div class="brique" style="top: 50px; left: 350px;"></div>
+      <div class="brique" style="top: 100px; left: 50px;"></div>
+      <div class="brique" style="top: 100px; left: 200px;"></div>
+      <div class="brique" style="top: 100px; left: 350px;"></div>
+      <div class="brique" style="top: 150px; left: 50px;"></div>
+      <div class="brique" style="top: 150px; left: 200px;"></div>
+      <div class="brique" style="top: 150px; left: 350px;"></div>
+      <div id="barre"></div>
+      <div id="balle"></div>
+      
+    </div>
+    <h1 id="vies-restantes">nombre de vie</h1>
+    
+    
+    <div class="choix">
+      <h1>choisir votre niveau</h1>
+      <div id="1"><button>débutant</button></div>
+      <div id="2"><button>moyen</button></div>
+      <div id="3"><button>professionnel</button></div>
+    </div>
+      <script>
+        let balle = document.getElementById('balle');
+        let barre = document.getElementById('barre');
+        let briques = document.querySelectorAll('.brique');
+        let jeu = document.getElementById('jeu');
+        let largeurBrique = 100;
+        let hauteurBrique = 30;
+        let score = 0;
+        let vitesse = 0;
+        let vie = 1; // Ajout de la variable vie
+        let raf = null;
+        // Ajout d'un élément HTML pour afficher le nombre de vies restantes
+        let viesRestantes = document.getElementById('vies-restantes');
+        viesRestantes.innerHTML = "Vies restantes : " + vie;
+        // Gestion du choix de la difficulté
+        let debutant = document.getElementById('1');
+        debutant.addEventListener('click', function() {
+          vitesse = 30;
+          jouer();
+        });
+
+        let intermediaire = document.getElementById('2');
+        intermediaire.addEventListener('click', function() {
+          vitesse = 20;
+          jouer();
+        });
+
+        let professionnel = document.getElementById('3');
+        professionnel.addEventListener('click', function() {
+          vitesse = 10;
+          jouer();
+        });
+
+        // Initialisation de la balle
+        let xBalle = 245;
+        let yBalle = 245;
+        let dx = 2;
+        let dy = -2;
+        balle.style.left = xBalle + "px";
+        balle.style.top = yBalle + "px";
+
+        // Fonction pour faire bouger la balle
+        // Fonction pour faire bouger la balle
+        function bougerBalle() {
+          xBalle += dx;
+          yBalle += dy;
+          balle.style.left = xBalle + "px";
+          balle.style.top = yBalle + "px";
+          
+          // Gestion des collisions avec les bords du jeu
+          if (xBalle + 20 >= jeu.offsetWidth || xBalle <= 0) {
+            dx = -dx;
+          }
+          if (yBalle <= 0) {
+            dy = -dy;
+          }
+          if (yBalle + 20 >= jeu.offsetHeight) {
+            // Si la balle touche le bas du jeu
+        vie--; // On diminue le nombre de vies
+        if (vie > 0) {
+          viesRestantes.innerHTML = "Vies restantes : " + vie; // On met à jour le nombre de vies restantes dans l'élément HTML
+          jouer(); // On relance le jeu
+        } else {
+          if (confirm("Game over ! Voulez-vous recommencer ?")) { // On demande à l'utilisateur s'il veut recommencer
+            vie = 1; // On réinitialise le nombre de vies
+            viesRestantes.innerHTML = "Vies restantes : " + vie; // On met à jour le nombre de vies restantes dans l'élément HTML
+            jouer(); // On relance le jeu
+          }
+        }
+            
+      } 
+      }
+        // Fonction pour détecter les collisions entre la balle et un élément
+        function collision(element) {
+        let rect1 = balle.getBoundingClientRect();
+        let rect2 = element.getBoundingClientRect();
+        return !(rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom);
+        }
+
+        // Fonction pour faire bouger la barre
+        function bougerBarre(event) {
+        let x = event.clientX - jeu.offsetLeft;
+        if (x > 0 && x < jeu.offsetWidth - barre.offsetWidth) {
+        barre.style.left = x + "px";
+        }
+        }
+
+        // Fonction pour mettre à jour le score
+        function mettreAJourScore() {
+        score++;
+        let scoreElement = document.getElementById('score');
+        scoreElement.innerHTML = "Score : " + score;
+        if (score == briques.length) {
+        if (alert("Bravo, vous avez gagné ! Voulez-vous recommencer ?")) {
+        vie = 1;
+        viesRestantes.innerHTML = "Vies restantes : " + vie;
+        score = 0;
+        scoreElement.innerHTML = "Score : " + score;
+        initialiserBriques();
+        jouer();
+        }
+        }
+        }
+
+        // Fonction pour initialiser les briques
+        function initialiserBriques() {
+        for (let i = 0; i < briques.length; i++) {
+        briques[i].style.display = "block";
+        }
+        }
+
+        // Fonction pour jouer
+        function jouer() {
+        raf = window.requestAnimationFrame(jouer);
+
+        // Détection des collisions avec la barre
+        if (collision(barre)) {
+        dy = -dy;
+        }
+
+        // Détection des collisions avec les briques
+        for (let i = 0; i < briques.length; i++) {
+        if (briques[i].style.display != "none" && collision(briques[i])) {
+        briques[i].style.display = "none";
+        dy = -dy;
+        mettreAJourScore();
+        }
+        }
+
+        bougerBalle();
+        }
+
+        // Ajout d'un événement pour faire bouger la barre avec la souris
+        jeu.addEventListener('mousemove', bougerBarre);
+
+        // Initialisation des briques
+        initialiserBriques();
+
+        // Lancement du jeu
+        jouer();
+    </script>
